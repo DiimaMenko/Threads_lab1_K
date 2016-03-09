@@ -42,15 +42,13 @@ void MainWindow::start(){
             MyThread *temp = new MyThread(startPos, endPos, this->matrix);
             myThreads.push_back(temp);
         }
-        int startTime = QTime::currentTime().msecsSinceStartOfDay();
+        long long int startTime = QTime::currentTime().msecsSinceStartOfDay();
         for(int i = 0; i < this->numberOfThreads; i++){
             myThreads[i]->start();
         }
         for(int i = 0; i < this->numberOfThreads; i++){
             myThreads[i]->wait();
         }
-        int endTime = QTime::currentTime().msecsSinceStartOfDay();
-        int resultTime = endTime - startTime;
         for(int k = 0; k < this->numberOfThreads; k++){
             for(int i = this->numberOfElements / numberOfThreads * k; i < this->matrix.size(); i++){
                 for(int j = 0; j < this->matrix.size(); j++){
@@ -59,6 +57,8 @@ void MainWindow::start(){
             }
         }
 
+        long long int endTime = QTime::currentTime().msecsSinceStartOfDay();
+        long long int resultTime = endTime - startTime;
         this->ui->labelTime->setText(QString::number(resultTime));
         this->textResultMatrix = makeTextFromMatrix();
         this->ui->labelMatrix_2->setText(this->textResultMatrix);
